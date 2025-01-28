@@ -1,12 +1,31 @@
-document.getElementById("pedidoForm").addEventListener("submit", function(event){
-    event.preventDefault();
-    let formData = new FormData(event.target);
-    let data = {};
-    formData.forEach((value, key) => data[key] = value);
+function validateForm() {
+    // Obtener los valores de los campos del formulario
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var item = document.getElementById('item').value;
+    var quantity = document.getElementById('quantity').value;
+    var date = document.getElementById('date').value;
 
-    // Aquí puedes enviar los datos a tu servidor
-    console.log("Datos del formulario:", data);
+    // Validar que todos los campos estén llenos
+    if (name === "" || email === "" || item === "" || quantity === "" || date === "") {
+        alert("Por favor, completa todos los campos.");
+        return false;
+    }
 
-    alert("Formulario enviado");
-    event.target.reset(); // Limpia el formulario después de enviarlo
-});
+    // Validar que la cantidad sea mayor que cero
+    if (quantity <= 0) {
+        alert("La cantidad debe ser mayor que cero.");
+        return false;
+    }
+
+    // Validar que la fecha sea válida (no en el pasado)
+    var currentDate = new Date();
+    var selectedDate = new Date(date);
+    if (selectedDate < currentDate) {
+        alert("La fecha de requerimiento no puede ser en el pasado.");
+        return false;
+    }
+
+    // Si todas las validaciones pasan, permitir el envío del formulario
+    return true;
+}
